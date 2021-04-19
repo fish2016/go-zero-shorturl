@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"api/transformer"
 	"context"
 
 	"api/internal/svc"
@@ -25,6 +26,16 @@ func NewExpandLogic(ctx context.Context, svcCtx *svc.ServiceContext) ExpandLogic
 
 func (l *ExpandLogic) Expand(req types.ExpandReq) (*types.ExpandResp, error) {
 	// todo: add your logic here and delete this line
+	// 手动代码开始
+	resp, err := l.svcCtx.Transformer.Expand(l.ctx, &transformer.ExpandReq{
+		Shorten: req.Shorten,
+	})
+	if err != nil {
+		return nil, err
+	}
 
-	return &types.ExpandResp{}, nil
+	return &types.ExpandResp{
+		Url: resp.Url,
+	}, nil
+	// 手动代码结束
 }
